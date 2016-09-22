@@ -95,6 +95,7 @@
     {
         "type": "atlas",
         "only": ["vmware-iso"],
+        "token": "{{user `atlas_token`}}",
         "artifact": "{{user `atlas_username`}}/{{user `box_basename`}}",
         "artifact_type": "vagrant.box",
         "metadata": {
@@ -106,6 +107,7 @@
     {
         "type": "atlas",
         "only": ["virtualbox-iso"],
+        "token": "{{user `atlas_token`}}",
         "artifact": "{{user `atlas_username`}}/{{user `box_basename`}}",
         "artifact_type": "vagrant.box",
         "metadata": {
@@ -117,6 +119,7 @@
     {
         "type": "atlas",
         "only": ["qemu"],
+        "token": "{{user `atlas_token`}}",
         "artifact": "{{user `atlas_username`}}/{{user `box_basename`}}",
         "artifact_type": "vagrant.box",
         "metadata": {
@@ -156,8 +159,8 @@
     }
   ],
   "variables": {
-    "atlas_username": "{{env `ATLAS_USERNAME`}}",
-    "atlas_name": "{{env `ATLAS_NAME`}}",
+    "atlas_username": "DomBlack",
+    "atlas_token": "{{env `ATLAS_TOKEN`}}",
     "box_basename": "centos-6.8",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
