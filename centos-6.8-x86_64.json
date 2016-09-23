@@ -101,7 +101,8 @@
         "metadata": {
             "provider": "vmware_desktop",
             "version": "{{user `version`}}",
-            "created_at": "{{timestamp}}"
+            "created_at": "{{timestamp}}",
+            "description": "{{ user `description`}}"
         }
     },
     {
@@ -113,7 +114,8 @@
         "metadata": {
             "provider": "virtualbox",
             "version": "{{user `version`}}",
-            "created_at": "{{timestamp}}"
+            "created_at": "{{timestamp}}",
+            "description": "{{ user `description`}}"
         }
     },
     {
@@ -125,7 +127,8 @@
         "metadata": {
             "provider": "qemu",
             "version": "{{user `version`}}",
-            "created_at": "{{timestamp}}"
+            "created_at": "{{timestamp}}",
+            "description": "{{ user `description`}}"
         }
     }]
   ],
@@ -180,6 +183,7 @@
     "name": "centos-6.8",
     "no_proxy": "{{env `no_proxy`}}",
     "template": "centos-6.8-x86_64",
-    "version": "1.0.{{isotime \"20060102\"}}"
+    "version": "1.0.{{isotime \"20060102\"}}",
+    "description": "A CentOS 6.8 box with Ansible 2 pre-installed.\n\nThis box is a 64bit VM with the firewall and SELinux disabled. The packer build scripts are at https://github.com/DomBlack/vagrant-boxes."
   }
 }
