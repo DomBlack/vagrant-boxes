@@ -100,7 +100,7 @@
         "artifact_type": "vagrant.box",
         "metadata": {
             "provider": "vmware_desktop",
-            "version": "0.0.1",
+            "version": "{{user `version`}}",
             "created_at": "{{timestamp}}"
         }
     },
@@ -112,7 +112,7 @@
         "artifact_type": "vagrant.box",
         "metadata": {
             "provider": "virtualbox",
-            "version": "0.0.1",
+            "version": "{{user `version`}}",
             "created_at": "{{timestamp}}"
         }
     },
@@ -123,8 +123,8 @@
         "artifact": "{{user `atlas_username`}}/{{user `box_basename`}}",
         "artifact_type": "vagrant.box",
         "metadata": {
-            "provider": "libvirt",
-            "version": "0.0.1",
+            "provider": "qemu",
+            "version": "{{user `version`}}",
             "created_at": "{{timestamp}}"
         }
     }]
@@ -180,6 +180,6 @@
     "name": "centos-6.8",
     "no_proxy": "{{env `no_proxy`}}",
     "template": "centos-6.8-x86_64",
-    "version": "2.1.TIMESTAMP"
+    "version": "1.0.{{isotime \"20060102\"}}"
   }
 }
