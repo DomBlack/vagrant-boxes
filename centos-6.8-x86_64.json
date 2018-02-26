@@ -40,97 +40,23 @@
       ],
       "virtualbox_version_file": ".vbox_version",
       "vm_name": "{{ user `template` }}"
-    },
-    {
-      "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
-      ],
-      "boot_wait": "10s",
-      "disk_size": "{{user `disk_size`}}",
-      "guest_os_type": "centos-64",
-      "headless": "{{ user `headless` }}",
-      "http_directory": "http",
-      "iso_checksum": "{{user `iso_checksum`}}",
-      "iso_checksum_type": "{{user `iso_checksum_type`}}",
-      "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
-      "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
-      "ssh_password": "vagrant",
-      "ssh_port": 22,
-      "ssh_username": "vagrant",
-      "ssh_wait_timeout": "10000s",
-      "tools_upload_flavor": "linux",
-      "type": "vmware-iso",
-      "vm_name": "{{ user `template` }}",
-      "vmx_data": {
-        "cpuid.coresPerSocket": "1",
-        "memsize": "{{ user `memory` }}",
-        "numvcpus": "{{ user `cpus` }}"
-      }
-    },
-    {
-      "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_path`}}<enter><wait>"
-      ],
-      "boot_wait": "10s",
-      "disk_size": "{{user `disk_size`}}",
-      "headless": "{{ user `headless` }}",
-      "http_directory": "http",
-      "iso_checksum": "{{user `iso_checksum`}}",
-      "iso_checksum_type": "{{user `iso_checksum_type`}}",
-      "iso_url": "{{user `mirror`}}/{{user `mirror_directory`}}/{{user `iso_name`}}",
-      "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
-      "ssh_password": "vagrant",
-      "ssh_port": 22,
-      "ssh_username": "vagrant",
-      "ssh_wait_timeout": "10000s",
-      "type": "qemu",
-      "vm_name": "{{ user `template` }}"
     }
   ],
   "post-processors": [
-    [{
-        "type": "vagrant",
-        "keep_input_artifact": false
-    },
-    {
-        "type": "atlas",
-        "only": ["vmware-iso"],
-        "token": "{{user `atlas_token`}}",
-        "artifact": "{{user `atlas_username`}}/{{user `box_basename`}}",
-        "artifact_type": "vagrant.box",
-        "metadata": {
-            "provider": "vmware_desktop",
-            "version": "{{user `version`}}",
-            "created_at": "{{timestamp}}",
-            "description": "{{ user `description`}}"
-        }
-    },
-    {
-        "type": "atlas",
-        "only": ["virtualbox-iso"],
-        "token": "{{user `atlas_token`}}",
-        "artifact": "{{user `atlas_username`}}/{{user `box_basename`}}",
-        "artifact_type": "vagrant.box",
-        "metadata": {
-            "provider": "virtualbox",
-            "version": "{{user `version`}}",
-            "created_at": "{{timestamp}}",
-            "description": "{{ user `description`}}"
-        }
-    },
-    {
-        "type": "atlas",
-        "only": ["qemu"],
-        "token": "{{user `atlas_token`}}",
-        "artifact": "{{user `atlas_username`}}/{{user `box_basename`}}",
-        "artifact_type": "vagrant.box",
-        "metadata": {
-            "provider": "qemu",
-            "version": "{{user `version`}}",
-            "created_at": "{{timestamp}}",
-            "description": "{{ user `description`}}"
-        }
-    }]
+    [ 
+      {
+          "type": "vagrant",
+          "output": "vagrant.box",
+          "keep_input_artifact": false
+      },
+      {
+          "type": "vagrant-cloud",
+          "only": ["virtualbox-iso"],
+          "access_token": "{{user `vagrantcloud_token`}}",
+          "version": "{{user `version`}}",
+          "box_tag": "{{user `vagrantcloud_username`}}/{{user `box_basename`}}"
+      }
+    ]
   ],
   "provisioners": [
     {
@@ -162,8 +88,8 @@
     }
   ],
   "variables": {
-    "atlas_username": "DomBlack",
-    "atlas_token": "{{env `ATLAS_TOKEN`}}",
+    "vagrantcloud_username": "DomBlack",
+    "vagrantcloud_token": "{{env `VAGRANTCLOUD_TOKEN`}}",
     "box_basename": "centos-6.8",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
@@ -178,7 +104,7 @@
     "ks_path": "ks.cfg",
     "memory": "512",
     "metadata": "floppy/dummy_metadata.json",
-    "mirror": "http://mirrors.kernel.org/centos",
+    "mirror": "http://mirror.nsc.liu.se/centos-store/",
     "mirror_directory": "6.8/isos/x86_64",
     "name": "centos-6.8",
     "no_proxy": "{{env `no_proxy`}}",
